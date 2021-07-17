@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: ssup2ket-auth-virtualservice
+spec:
+  hosts:
+  - "192.168.0.36"
+  - ssup2ket-auth
+  gateways:
+  - dev-ssup2ket-auth-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /auth
+    route:
+    - destination:
+        host: dev-ssup2ket-auth-service

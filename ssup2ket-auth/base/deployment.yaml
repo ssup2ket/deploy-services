@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ssup2ket-auth-deployment
+  labels:
+    app: nginx
+spec:
+  selector:
+    matchLabels:
+      app: ssup2ket-auth
+  template:
+    metadata:
+      labels:
+        app: ssup2ket-auth
+    spec:
+      containers:
+      - name: ssup2ket-auth
+        ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+        volumeMounts:
+        - name: tz-seoul
+          mountPath: /etc/localtime
+      volumes:
+        - name: tz-seoul
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Seoul

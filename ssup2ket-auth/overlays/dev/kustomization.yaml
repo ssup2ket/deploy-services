@@ -1,0 +1,14 @@
+namePrefix: dev-
+
+namespace: app-dev
+
+commonLabels:
+  deploy-env: dev
+
+resources:
+- ../../base
+
+patchesStrategicMerge:
+- deployment.yaml
+- gateway.yaml
+- virtualservice.yaml
