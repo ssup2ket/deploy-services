@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: ssup2ket
+  namespace: cicd
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  description: ssup2ket
+  destinations:
+  - namespace: '*'
+    server: '*'
+  sourceRepos:
+  - '*'
