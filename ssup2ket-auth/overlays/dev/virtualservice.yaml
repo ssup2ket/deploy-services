@@ -11,7 +11,9 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /auth
+        prefix: "/auth/"
+    rewrite:
+      uri: "/"
     route:
     - destination:
         host: dev-ssup2ket-auth-service
