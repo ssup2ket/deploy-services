@@ -19,6 +19,9 @@ spec:
         - name: http
           containerPort: 80
           protocol: TCP
+        - name: grpc
+          containerPort: 9090
+          protocol: TCP
         volumeMounts:
         - name: tz-seoul
           mountPath: /etc/localtime

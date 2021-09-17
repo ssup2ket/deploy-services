@@ -12,3 +12,9 @@ spec:
       protocol: HTTP
     hosts:
     - "192.168.0.36"
+  - port:
+      number: 9100
+      name: grpc
+      protocol: GRPC
+    hosts:
+    - "192.168.0.36"
