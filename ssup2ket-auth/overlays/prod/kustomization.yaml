@@ -1,0 +1,14 @@
+namePrefix: prod-
+
+namespace: app-prod
+
+commonLabels:
+  deploy-env: prod
+
+resources:
+- ../../base
+
+patchesStrategicMerge:
+- deployment.yaml
+- gateway.yaml
+- virtualservice.yaml

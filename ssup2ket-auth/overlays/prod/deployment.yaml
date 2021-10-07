@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ssup2ket-auth-deployment
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    spec:
+      containers:
+      - name: ssup2ket-auth
+        image: ssup2/ssup2ket-auth:0.1
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "500m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        env:
+        - name: SERVER_URL
+          value: http://192.168.0.38/auth
+        - name: DEPLOY_ENV
+          value: prod
+        - name: MYSQL_PRIMARY_IP
+          value: mysql-primary.infra
+        - name: MYSQL_PRIMARY_PORT
+          value: "3306"
+        - name: MYSQL_PRIMARY_USER
+          value: root
+        - name: MYSQL_PRIMARY_PASSWORD
+          value: root
+        - name: MYSQL_PRIMARY_DATABASE
+          value: prod_auth
+        - name: MYSQL_SECONDARY_IP
+          value: mysql-secondary.infra
+        - name: MYSQL_SECONDARY_PORT
+          value: "3306"
+        - name: MYSQL_SECONDARY_USER
+          value: root
+        - name: MYSQL_SECONDARY_PASSWORD
+          value: root
+        - name: MYSQL_SECONDARY_DATABASE
+          value: prod_auth
+
