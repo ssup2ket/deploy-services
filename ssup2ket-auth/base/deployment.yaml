@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: ssup2ket-auth-deployment
   labels:
-    app: nginx
+    app: ssup2ket-auth
 spec:
   selector:
     matchLabels:

@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ssup2ket-auth-debezium-configmap
+data:
+  connector.json: |-
+    {
+      "name" : "ssup2ket-auth-dev",
+      "config": {
+        "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+        "tasks.max": "1",
+        "database.hostname": "mysql-primary",
+        "database.port": "3306",
+        "database.user": "admin",
+        "database.password": "admin",
+        "database.dbname": "dev_auth",
+        "database.server.name": "mysql-primary-0",
+        "tombstones.on.delete": "false",
+        "table.whitelist": "dev_auth.outboxes",
+        "transforms": "outbox",
+        "transforms.outbox.type": "io.debezium.transforms.outbox.EventRouter"
+      }
+    }

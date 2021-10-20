@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ssup2ket-auth-debezium-deployment
+spec:
+  template:
+    spec:
+      containers:
+      - name: debezium-connector
+        livenessProbe:
+          exec:
+            command: ["/bin/sh", "-c", "! curl 127.0.0.1:8083/connectors/ssup2ket-auth-dev/status 2>/dev/null | grep -q  '\"state\":\"FAILED\"'"]
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", 'sleep 60s; curl -XPUT -H"Accept:application/json" -H"Content-Type:application/json" http://127.0.0.1:8083/connectors/ssup2ket-auth-dev/config -d@/etc/debezium/connector.json']
+
+    

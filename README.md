@@ -24,3 +24,6 @@ $ kustomize build ssup2ket-auth/overlays/dev | kubectl apply -f -
 $ kustomize build ssup2ket-auth/overlays/prod | kubectl apply -f -
 ```
 
+## Reference
+
+* Debezium - https://github.com/bykvaadm/debezium-helm-chart

@@ -3,3 +3,5 @@ resources:
 - service.yaml
 - gateway.yaml
 - virtualservice.yaml
+- debezium_deployment.yaml
+- debezium_configmap.yaml
