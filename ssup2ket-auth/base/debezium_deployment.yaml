@@ -67,3 +67,5 @@ spec:
           value: ssup2ket-auth-configs
         - name: OFFSET_STORAGE_TOPIC
           value: ssup2ket-auth-offsets
+        - name: HOST_NAME
+          value: localhost

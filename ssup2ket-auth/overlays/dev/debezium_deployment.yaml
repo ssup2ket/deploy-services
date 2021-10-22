@@ -13,6 +13,6 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/sh", "-c", 'sleep 60s; curl -XPUT -H"Accept:application/json" -H"Content-Type:application/json" http://127.0.0.1:8083/connectors/ssup2ket-auth-dev/config -d@/etc/debezium/connector.json']
+              command: ["/bin/sh", "-c", 'sleep 60s; curl -XPOST -H"Accept:application/json" -H"Content-Type:application/json" http://127.0.0.1:8083/connectors/ -d@/etc/debezium/connector.json']
 
     
