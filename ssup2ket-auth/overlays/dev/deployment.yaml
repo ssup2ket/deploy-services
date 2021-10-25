@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: ssup2ket-auth-deployment
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: ssup2ket-auth
-        image: ssup2/ssup2ket-auth:latest 
+        image: ssup2/ssup2ket-auth:branch-master
         resources:
           requests:
             memory: "128Mi"

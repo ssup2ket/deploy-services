@@ -5,7 +5,7 @@ metadata:
   labels:
     app: ssup2ket-auth-debezium
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
     type: Recreate
   selector:
@@ -13,33 +13,14 @@ spec:
       app: ssup2ket-auth-debezium
   template:
     metadata:
-      annotations:
-        prometheus.io/scrape: 'true'
-        prometheus.io/path: '/'
-        prometheus.io/port: '9005'
       labels:
         app: ssup2ket-auth-debezium
     spec:
       volumes:
-      - name: opt-prometheus
-        emptyDir: {}
       - name: configmap
         configMap:
           name: ssup2ket-auth-debezium-configmap
           defaultMode: 0744
-      initContainers:
-      - name: ssup2ket-auth-debezium-jmx
-        command:
-        - wget
-        - --quiet
-        - --no-check-certificate
-        - --output-document
-        - /opt/prometheus/jmx_exporter_javaagent.jar
-        - https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.15.0/jmx_prometheus_javaagent-0.15.0.jar
-        image: busybox:1.33.1
-        volumeMounts:
-        - mountPath: /opt/prometheus
-          name: opt-prometheus
       containers:
       - name: debezium-connector
         image: debezium/connect:1.6.2.Final
@@ -47,25 +28,22 @@ spec:
         - mountPath: /etc/debezium/connector.json
           name: configmap
           subPath: connector.json
-        - mountPath: /etc/jmx_exporter/jmx_exporter.yaml
-          name: configmap
-          subPath: jmx_exporter.yaml
         - mountPath: /health.sh
           name: configmap
           subPath: health.sh
         - mountPath: /kafka/config/log4j.properties
           name: configmap
           subPath: log4j.properties
-        - mountPath: /opt/prometheus
-          name: opt-prometheus
         env:
-        - name: BOOTSTRAP_SERVERS
-          value: kafka.infra:9092
         - name: GROUP_ID
           value: '1'
         - name: CONFIG_STORAGE_TOPIC
-          value: ssup2ket-auth-configs
+          value: ssup2ket-auth-config
         - name: OFFSET_STORAGE_TOPIC
-          value: ssup2ket-auth-offsets
-        - name: HOST_NAME
-          value: localhost
+          value: ssup2ket-auth-offset
+        - name: STATUS_STORAGE_TOPIC
+          value: ssup2ket-auth-status
+        - name: ADVERTISED_HOST_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
