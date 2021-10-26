@@ -17,5 +17,3 @@ spec:
         env: 
         - name: BOOTSTRAP_SERVERS
           value: kafka-prod.infra:9092
-        - name: GROUP_ID
-          value: '1'
