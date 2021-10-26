@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ssup2ket-auth-debezium-configmap
+data:
+  connector.json: |-
+    {
+      "name" : "ssup2ket-auth",
+      "config": {
+        "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+        "tasks.max": "1",
+        "database.hostname": "mysql-primary.infra",
+        "database.port": "3306",
+        "database.user": "root",
+        "database.password": "root",
+        "database.server.name": "mysql-primary",
+        "database.include.list": "prod_auth",
+        "database.history.kafka.bootstrap.servers": "kafka-prod.infra:9092",
+        "database.history.kafka.topic": "ssup2ket-auth-history",
+        "table.include.list": "prod_auth.outboxes",
+        "tombstones.on.delete": "false",
+        "transforms": "outbox",
+        "transforms.outbox.type": "io.debezium.transforms.outbox.EventRouter"
+      }
+    }

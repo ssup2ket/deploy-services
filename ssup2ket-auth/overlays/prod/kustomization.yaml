@@ -1,5 +1,3 @@
-namePrefix: prod-
-
 namespace: app-prod
 
 commonLabels:
@@ -12,3 +10,5 @@ patchesStrategicMerge:
 - deployment.yaml
 - gateway.yaml
 - virtualservice.yaml
+- debezium_deployment.yaml
+- debezium_configmap.yaml

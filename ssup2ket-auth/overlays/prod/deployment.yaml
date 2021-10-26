@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: ssup2ket-auth
-        image: ssup2/ssup2ket-auth:0.1
+        image: ssup2/ssup2ket-auth:0.2
         resources:
           requests:
             memory: "128Mi"

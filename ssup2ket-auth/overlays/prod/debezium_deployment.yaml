@@ -16,6 +16,6 @@ spec:
               command: ["/bin/sh", "-c", "sleep 30s && curl -XPOST -H 'Content-Type:application/json' http://$(hostname):8083/connectors/ -d@/etc/debezium/connector.json"]
         env: 
         - name: BOOTSTRAP_SERVERS
-          value: kafka-dev.infra:9092
+          value: kafka-prod.infra:9092
         - name: GROUP_ID
           value: '1'
