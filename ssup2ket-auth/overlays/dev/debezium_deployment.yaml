@@ -7,13 +7,6 @@ spec:
     spec:
       containers:
       - name: debezium-connector
-        livenessProbe:
-          exec:
-            command: ["/bin/sh", "-c", "! curl http://$(hostname):8083/connectors/ssup2ket-auth/status 2>/dev/null | grep -q \"state\":\"FAILED\""]
-        lifecycle:
-          postStart:
-            exec:
-              command: ["/bin/sh", "-c", "sleep 30s && curl -XPOST -H 'Content-Type:application/json' http://$(hostname):8083/connectors/ -d@/etc/debezium/connector.json"]
         env: 
         - name: BOOTSTRAP_SERVERS
           value: kafka-dev.infra:9092
