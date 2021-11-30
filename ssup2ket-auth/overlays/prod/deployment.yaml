@@ -32,26 +32,8 @@ spec:
           value: http://192.168.0.38/auth
         - name: DEPLOY_ENV
           value: prod
-        - name: MYSQL_PRIMARY_IP
-          value: mysql-primary.infra
-        - name: MYSQL_PRIMARY_PORT
-          value: "3306"
-        - name: MYSQL_PRIMARY_USER
-          value: root
-        - name: MYSQL_PRIMARY_PASSWORD
-          value: root
         - name: MYSQL_PRIMARY_DATABASE
           value: prod_auth
-        - name: MYSQL_SECONDARY_IP
-          value: mysql-secondary.infra
-        - name: MYSQL_SECONDARY_PORT
-          value: "3306"
-        - name: MYSQL_SECONDARY_USER
-          value: root
-        - name: MYSQL_SECONDARY_PASSWORD
-          value: root
         - name: MYSQL_SECONDARY_DATABASE
           value: prod_auth
-        - name: JAEGER_COLLECTOR_ENDPOINT
-          value: http://jaeger-collector.istio-system:14268/api/traces
 
