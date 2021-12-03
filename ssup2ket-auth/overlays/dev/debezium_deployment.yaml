@@ -9,4 +9,4 @@ spec:
       - name: debezium-connector
         env: 
         - name: BOOTSTRAP_SERVERS
-          value: kafka-dev.infra:9092
+          value: kafka-stage.infra:9092

@@ -1,7 +1,7 @@
-namespace: app-dev
+namespace: app-stage
 
 commonLabels:
-  deploy-env: dev
+  deploy-env: stage
 
 resources:
 - ../../base

@@ -6,9 +6,6 @@ spec:
   replicas: 2
   strategy:
     type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
   template:
     spec:
       containers:
@@ -31,9 +28,9 @@ spec:
         - name: SERVER_URL
           value: http://192.168.0.36/auth
         - name: DEPLOY_ENV
-          value: dev
+          value: stage
         - name: MYSQL_PRIMARY_DATABASE
-          value: dev_auth
+          value: stage_auth
         - name: MYSQL_SECONDARY_DATABASE
-          value: dev_auth
+          value: stage_auth
 
