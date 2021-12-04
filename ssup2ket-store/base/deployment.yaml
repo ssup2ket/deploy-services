@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ssup2ket-auth-deployment
+  name: ssup2ket-store-deployment
   labels:
-    app: ssup2ket-auth
+    app: ssup2ket-store
 spec:
   selector:
     matchLabels:
-      app: ssup2ket-auth
+      app: ssup2ket-store
   template:
     metadata:
       labels:
-        app: ssup2ket-auth
+        app: ssup2ket-store
     spec:
       containers:
-      - name: ssup2ket-auth
+      - name: ssup2ket-store
         ports:
         - name: http
           containerPort: 80
@@ -22,18 +22,9 @@ spec:
         - name: grpc
           containerPort: 9090
           protocol: TCP
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: http
-          initialDelaySeconds: 10
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /healthz
-            port: http
-          initialDelaySeconds: 10
-          periodSeconds: 10
+        volumeMounts:
+        - name: tz-seoul
+          mountPath: /etc/localtime
         env:
         - name: MYSQL_PRIMARY_IP
           value: mysql-primary.infra
@@ -42,10 +33,7 @@ spec:
         - name: MYSQL_PRIMARY_USER
           value: root
         - name: MYSQL_PRIMARY_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: ssup2ket-auth-secret
-              key: MYSQL_PRIMARY_PASSWORD
+          value: root
         - name: MYSQL_SECONDARY_IP
           value: mysql-secondary.infra
         - name: MYSQL_SECONDARY_PORT
@@ -53,15 +41,9 @@ spec:
         - name: MYSQL_SECONDARY_USER
           value: root
         - name: MYSQL_SECONDARY_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: ssup2ket-auth-secret
-              key: MYSQL_SECONDARY_PASSWORD
-        - name: JAEGER_COLLECTOR_ENDPOINT
-          value: http://jaeger-collector.istio-system:14268/api/traces
-        volumeMounts:
-        - name: tz-seoul
-          mountPath: /etc/localtime
+          value: root     
+        - name: JAEGER_ENDPOINT
+          value: http://zipkin.istio-system:9411
       volumes:
         - name: tz-seoul
           hostPath:

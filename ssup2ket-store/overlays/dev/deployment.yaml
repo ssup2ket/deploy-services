@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ssup2ket-auth-deployment
+  name: ssup2ket-store-deployment
 spec:
   replicas: 2
   strategy:
@@ -9,8 +9,8 @@ spec:
   template:
     spec:
       containers:
-      - name: ssup2ket-auth
-        image: ssup2/ssup2ket-auth:branch-master
+      - name: ssup2ket-store
+        image: ssup2/ssup2ket-store:branch-master
         imagePullPolicy: Always
         resources:
           requests:
@@ -21,11 +21,11 @@ spec:
             cpu: "100m"
         env:
         - name: SERVER_URL
-          value: http://192.168.0.36/auth
+          value: http://192.168.0.36/store
         - name: DEPLOY_ENV
           value: stage
         - name: MYSQL_PRIMARY_DATABASE
-          value: stage_auth
+          value: stage_store
         - name: MYSQL_SECONDARY_DATABASE
-          value: stage_auth
+          value: stage_store
 

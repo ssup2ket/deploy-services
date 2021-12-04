@@ -1,9 +1,14 @@
+namespace: app-stage
+
+commonLabels:
+  deploy-env: stage
+
 resources:
+- ../../base
+
+patchesStrategicMerge:
 - deployment.yaml
-- service.yaml
-- secret.yaml
 - gateway.yaml
 - virtualservice.yaml
 - debezium_deployment.yaml
 - debezium_configmap.yaml
-- debezium_secret.yaml

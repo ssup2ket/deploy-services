@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ssup2ket-auth-debezium-deployment
+  name: ssup2ket-store-debezium-deployment
   labels:
-    app: ssup2ket-auth-debezium
+    app: ssup2ket-store-debezium
 spec:
   replicas: 2
   strategy:
@@ -13,28 +13,23 @@ spec:
       maxUnavailable: 1
   selector:
     matchLabels:
-      app: ssup2ket-auth-debezium
+      app: ssup2ket-store-debezium
   template:
     metadata:
       labels:
-        app: ssup2ket-auth-debezium
+        app: ssup2ket-store-debezium
     spec:
       volumes:
       - name: configmap
         configMap:
-          name: ssup2ket-auth-debezium-configmap
-          defaultMode: 0744
-      - name: secret
-        secret:
-          secretName: ssup2ket-auth-debezium-secret
+          name: ssup2ket-store-debezium-configmap
           defaultMode: 0744
       containers:
       - name: debezium-connector
         image: debezium/connect:1.6.2.Final
-        imagePullPolicy: Always
         volumeMounts:
         - mountPath: /etc/debezium/connector.json
-          name: secret
+          name: configmap
           subPath: connector.json
         - mountPath: /kafka/config/log4j.properties
           name: configmap
@@ -43,18 +38,18 @@ spec:
         - name: GROUP_ID
           value: '1'
         - name: CONFIG_STORAGE_TOPIC
-          value: ssup2ket-auth-config
+          value: ssup2ket-store-config
         - name: OFFSET_STORAGE_TOPIC
-          value: ssup2ket-auth-offset
+          value: ssup2ket-store-offset
         - name: STATUS_STORAGE_TOPIC
-          value: ssup2ket-auth-status
+          value: ssup2ket-store-status
         - name: ADVERTISED_HOST_NAME
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
         livenessProbe:
           exec:
-            command: ["/bin/sh", "-c", "! curl http://$(hostname):8083/connectors/ssup2ket-auth/status 2>/dev/null | grep -q \"state\":\"FAILED\""]
+            command: ["/bin/sh", "-c", "! curl http://$(hostname):8083/connectors/ssup2ket-store/status 2>/dev/null | grep -q \"state\":\"FAILED\""]
         lifecycle:
           postStart:
             exec:
