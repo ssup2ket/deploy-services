@@ -22,10 +22,14 @@ spec:
         env:
         - name: SERVER_URL
           value: http://192.168.0.36/store
-        - name: DEPLOY_ENV
+        - name: PROFILE_ACTIVE
           value: stage
         - name: MYSQL_PRIMARY_DATABASE
           value: stage_store
         - name: MYSQL_SECONDARY_DATABASE
           value: stage_store
+        - name: KAFKA_CONSUMER_IP
+          value: kafka-stage.infra
+        - name: KAFKA_CONSUMER_PORT
+          value: "9092"
 

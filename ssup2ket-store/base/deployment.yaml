@@ -22,9 +22,6 @@ spec:
         - name: grpc
           containerPort: 9090
           protocol: TCP
-        volumeMounts:
-        - name: tz-seoul
-          mountPath: /etc/localtime
         env:
         - name: MYSQL_PRIMARY_IP
           value: mysql-primary.infra
@@ -33,7 +30,10 @@ spec:
         - name: MYSQL_PRIMARY_USER
           value: root
         - name: MYSQL_PRIMARY_PASSWORD
-          value: root
+          valueFrom:
+            secretKeyRef:
+              name: ssup2ket-store-secret
+              key: MYSQL_PRIMARY_PASSWORD
         - name: MYSQL_SECONDARY_IP
           value: mysql-secondary.infra
         - name: MYSQL_SECONDARY_PORT
@@ -41,9 +41,17 @@ spec:
         - name: MYSQL_SECONDARY_USER
           value: root
         - name: MYSQL_SECONDARY_PASSWORD
-          value: root     
-        - name: JAEGER_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: ssup2ket-store-secret
+              key: MYSQL_SECONDARY_PASSWORD
+        - name: ZIPKIN_ENABLED
+          value: "true"
+        - name: ZIPKIN_BASE_URL
           value: http://zipkin.istio-system:9411
+        volumeMounts:
+        - name: tz-seoul
+          mountPath: /etc/localtime
       volumes:
         - name: tz-seoul
           hostPath:

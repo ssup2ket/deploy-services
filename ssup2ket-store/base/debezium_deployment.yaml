@@ -24,12 +24,17 @@ spec:
         configMap:
           name: ssup2ket-store-debezium-configmap
           defaultMode: 0744
+      - name: secret
+        secret:
+          secretName: ssup2ket-store-debezium-secret
+          defaultMode: 0744
       containers:
       - name: debezium-connector
         image: debezium/connect:1.6.2.Final
+        imagePullPolicy: Always
         volumeMounts:
         - mountPath: /etc/debezium/connector.json
-          name: configmap
+          name: secret
           subPath: connector.json
         - mountPath: /kafka/config/log4j.properties
           name: configmap

@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
-  name: ssup2ket-auth-gateway
+  name: ssup2ket-store-gateway
 spec:
   selector:
     istio: prod-ingressgateway
@@ -13,7 +13,7 @@ spec:
     hosts:
     - "192.168.0.38"
   - port:
-      number: 9100
+      number: 9101
       name: grpc
       protocol: GRPC
     hosts:
