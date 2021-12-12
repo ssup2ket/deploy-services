@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
       - name: ssup2ket-auth
-        image: ssup2/ssup2ket-auth:0.2
+        image: ssup2/ssup2ket-auth:0.3.1
         resources:
           requests:
             memory: "128Mi"
@@ -23,8 +23,5 @@ spec:
           value: http://192.168.0.38/auth
         - name: DEPLOY_ENV
           value: prod
-        - name: MYSQL_PRIMARY_DATABASE
+        - name: MYSQL_DATABASE
           value: prod_auth
-        - name: MYSQL_SECONDARY_DATABASE
-          value: prod_auth
-

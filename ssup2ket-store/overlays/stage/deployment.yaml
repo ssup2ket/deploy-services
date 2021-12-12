@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: ssup2ket-store-deployment
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     type: RollingUpdate
   template:
@@ -14,22 +14,20 @@ spec:
         imagePullPolicy: Always
         resources:
           requests:
-            memory: "128Mi"
-            cpu: "100m"
+            memory: "256Mi"
+            cpu: "500m"
           limits:
-            memory: "128Mi"
-            cpu: "100m"
+            memory: "256Mi"
+            cpu: "500m"
         env:
         - name: SERVER_URL
           value: http://192.168.0.36/store
-        - name: PROFILE_ACTIVE
-          value: stage
-        - name: MYSQL_PRIMARY_DATABASE
-          value: stage_store
-        - name: MYSQL_SECONDARY_DATABASE
-          value: stage_store
         - name: KAFKA_CONSUMER_IP
           value: kafka-stage.infra
         - name: KAFKA_CONSUMER_PORT
           value: "9092"
+        - name: PROFILE_ACTIVE
+          value: stage
+        - name: LOGGER_LEVEL
+          value: info
 

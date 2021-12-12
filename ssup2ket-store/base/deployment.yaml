@@ -22,7 +22,21 @@ spec:
         - name: grpc
           containerPort: 9090
           protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 300
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 300
+          periodSeconds: 10
         env:
+        - name: MYSQL_DATABASE
+          value: stage_store
         - name: MYSQL_PRIMARY_IP
           value: mysql-primary.infra
         - name: MYSQL_PRIMARY_PORT
