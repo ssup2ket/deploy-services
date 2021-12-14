@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: ssup2ket-store-deployment
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     type: RollingUpdate
   template:
@@ -13,18 +13,18 @@ spec:
         image: ssup2/ssup2ket-store:0.1
         resources:
           requests:
-            memory: "256Mi"
+            memory: "512Mi"
             cpu: "500m"
           limits:
-            memory: "256Mi"
+            memory: "512Mi"
             cpu: "500m"
         env:
         - name: SERVER_URL
           value: http://192.168.0.38/store
-        - name: KAFKA_CONSUMER_IP
-          value: kafka-prod.infra
-        - name: KAFKA_CONSUMER_PORT
-          value: "9092"
+        - name: KAFKA_TOPIC_PREFIX
+          value: prod
+        - name: KAFKA_GROUPID_PREFIX
+          value: prod
         - name: PROFILE_ACTIVE
           value: prod
         - name: LOGGER_LEVEL

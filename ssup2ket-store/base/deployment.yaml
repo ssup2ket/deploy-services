@@ -59,6 +59,10 @@ spec:
             secretKeyRef:
               name: ssup2ket-store-secret
               key: MYSQL_SECONDARY_PASSWORD
+        - name: KAFKA_CONSUMER_IP
+          value: kafka.infra
+        - name: KAFKA_CONSUMER_PORT
+          value: "9092"
         - name: ZIPKIN_ENABLED
           value: "true"
         - name: ZIPKIN_BASE_URL

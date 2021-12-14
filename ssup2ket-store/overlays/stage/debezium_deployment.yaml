@@ -8,5 +8,14 @@ spec:
       containers:
       - name: debezium-connector
         env: 
-        - name: BOOTSTRAP_SERVERS
-          value: kafka-stage.infra:9092
+        - name: GROUP_ID
+          value: stage-ssup2ket-store-debezium
+        - name: CONFIG_STORAGE_TOPIC
+          value: stage-ssup2ket-store-config
+        - name: OFFSET_STORAGE_TOPIC
+          value: stage-ssup2ket-store-offset
+        - name: STATUS_STORAGE_TOPIC
+          value: stage-ssup2ket-store-status
+        livenessProbe:
+          exec:
+            command: ["/bin/sh", "-c", "! curl http://$(hostname):8083/connectors/stage-ssup2ket-store/status 2>/dev/null | grep -q \"state\":\"FAILED\""]

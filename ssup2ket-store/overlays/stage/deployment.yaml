@@ -14,18 +14,18 @@ spec:
         imagePullPolicy: Always
         resources:
           requests:
-            memory: "256Mi"
+            memory: "512Mi"
             cpu: "500m"
           limits:
-            memory: "256Mi"
+            memory: "512Mi"
             cpu: "500m"
         env:
         - name: SERVER_URL
           value: http://192.168.0.36/store
-        - name: KAFKA_CONSUMER_IP
-          value: kafka-stage.infra
-        - name: KAFKA_CONSUMER_PORT
-          value: "9092"
+        - name: KAFKA_TOPIC_PREFIX
+          value: stage
+        - name: KAFKA_GROUPID_PREFIX
+          value: stage
         - name: PROFILE_ACTIVE
           value: stage
         - name: LOGGER_LEVEL

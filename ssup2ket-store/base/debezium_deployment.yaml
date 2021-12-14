@@ -40,8 +40,8 @@ spec:
           name: configmap
           subPath: log4j.properties
         env:
-        - name: GROUP_ID
-          value: '1'
+        - name: BOOTSTRAP_SERVERS
+          value: kafka.infra:9092
         - name: CONFIG_STORAGE_TOPIC
           value: ssup2ket-store-config
         - name: OFFSET_STORAGE_TOPIC
