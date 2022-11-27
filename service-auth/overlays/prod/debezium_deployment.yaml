@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-auth-debezium-deployment
+spec:
+  template:
+    spec:
+      containers:
+      - name: debezium-connector
+        env: 
+        - name: GROUP_ID
+          value: prod-service-auth-debezium
+        - name: CONFIG_STORAGE_TOPIC
+          value: prod-service-auth-config
+        - name: OFFSET_STORAGE_TOPIC
+          value: prod-service-auth-offset
+        - name: STATUS_STORAGE_TOPIC
+          value: prod-service-auth-status
+        livenessProbe:
+          exec:
+            command: ["/bin/sh", "-c", "! curl http://$(hostname):8083/connectors/prod-service-auth/status 2>/dev/null | grep -q \"state\":\"FAILED\""]
+

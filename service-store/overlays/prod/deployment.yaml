@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-store-deployment
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    spec:
+      containers:
+      - name: service-store
+        image: ghcr.io/ssup2ket/service-store:0.1
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        env:
+        - name: SERVER_URL
+          value: http://192.168.0.38/store
+        - name: KAFKA_TOPIC_PREFIX
+          value: prod
+        - name: KAFKA_GROUPID_PREFIX
+          value: prod
+        - name: PROFILE_ACTIVE
+          value: prod
+        - name: LOGGER_LEVEL
+          value: info

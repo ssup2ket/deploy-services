@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-auth-deployment
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+  template:
+    spec:
+      containers:
+      - name: service-auth
+        image: ghcr.io/ssup2ket/service-auth:branch-master
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        env:
+        - name: SERVER_URL
+          value: http://192.168.0.36/auth
+        - name: DEPLOY_ENV
+          value: stage
+        - name: MYSQL_DATABASE
+          value: stage_auth

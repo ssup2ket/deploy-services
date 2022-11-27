@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-auth-debezium-deployment
+spec:
+  template:
+    spec:
+      containers:
+      - name: debezium-connector
+        env: 
+        - name: GROUP_ID
+          value: stage-service-auth-debezium
+        - name: CONFIG_STORAGE_TOPIC
+          value: stage-service-auth-config
+        - name: OFFSET_STORAGE_TOPIC
+          value: stage-service-auth-offset
+        - name: STATUS_STORAGE_TOPIC
+          value: stage-service-auth-status
+        livenessProbe:
+          exec:
+            command: ["/bin/sh", "-c", "! curl http://$(hostname):8083/connectors/stage-service-auth/status 2>/dev/null | grep -q \"state\":\"FAILED\""]

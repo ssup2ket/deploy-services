@@ -1,0 +1,23 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: service-store-virtualservice
+spec:
+  hosts:
+  - service-store-service
+  gateways:
+  - service-store-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/store/"
+    rewrite:
+      uri: "/"
+    route:
+    - destination:
+        host: service-store-service
+  - match:
+    - port: 9101
+    route:
+    - destination:
+        host: service-store-service

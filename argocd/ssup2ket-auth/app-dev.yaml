@@ -2,11 +2,11 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd-image-updater.argoproj.io/image-list: auth=ssup2/ssup2ket-auth
+    argocd-image-updater.argoproj.io/image-list: auth=ssup2ket/service-auth
     argocd-image-updater.argoproj.io/auth.update-strategy: latest
     argocd-image-updater.argoproj.io/auth.allow-tags: regexp:^commit-*
     argocd-image-updater.argoproj.io/write-back-method: argocd
-  name: ssup2ket-auth-dev
+  name: dev-service-auth
   namespace: cicd
 spec:
   destination:
@@ -16,9 +16,9 @@ spec:
   source:
     kustomize:
       images:
-      - ssup2/ssup2ket-auth:2dfc87a25c
-    path: ssup2ket-auth/overlays/dev
-    repoURL: https://github.com/ssup2ket/ssup2ket-deploy.git
+      - ssup2ket/auth-service:2dfc87a25c
+    path: auth-service/overlays/dev
+    repoURL: https://github.com/ssup2ket/deploy-services.git
     targetRevision: HEAD
   syncPolicy:
     automated: {}

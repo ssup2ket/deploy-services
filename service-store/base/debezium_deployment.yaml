@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-store-debezium-deployment
+  labels:
+    app: service-store-debezium
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: service-store-debezium
+  template:
+    metadata:
+      labels:
+        app: service-store-debezium
+    spec:
+      volumes:
+      - name: configmap
+        configMap:
+          name: service-store-debezium-configmap
+          defaultMode: 0744
+      - name: secret
+        secret:
+          secretName: service-store-debezium-secret
+          defaultMode: 0744
+      containers:
+      - name: debezium-connector
+        image: debezium/connect:1.6.2.Final
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /etc/debezium/connector.json
+          name: secret
+          subPath: connector.json
+        - mountPath: /kafka/config/log4j.properties
+          name: configmap
+          subPath: log4j.properties
+        env:
+        - name: BOOTSTRAP_SERVERS
+          value: kafka.infra:9092
+        - name: CONFIG_STORAGE_TOPIC
+          value: service-store-config
+        - name: OFFSET_STORAGE_TOPIC
+          value: service-store-offset
+        - name: STATUS_STORAGE_TOPIC
+          value: service-store-status
+        - name: ADVERTISED_HOST_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        livenessProbe:
+          exec:
+            command: ["/bin/sh", "-c", "! curl http://$(hostname):8083/connectors/service-store/status 2>/dev/null | grep -q \"state\":\"FAILED\""]
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "sleep 30s && curl -XPOST -H 'Content-Type:application/json' http://$(hostname):8083/connectors/ -d@/etc/debezium/connector.json"]

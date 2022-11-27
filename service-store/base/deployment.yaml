@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-store-deployment
+  labels:
+    app: service-store
+spec:
+  selector:
+    matchLabels:
+      app: service-store
+  template:
+    metadata:
+      labels:
+        app: service-store
+    spec:
+      containers:
+      - name: service-store
+        ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+        - name: grpc
+          containerPort: 9090
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 300
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 300
+          periodSeconds: 10
+        env:
+        - name: MYSQL_DATABASE
+          value: stage_store
+        - name: MYSQL_PRIMARY_IP
+          value: mysql-primary.infra
+        - name: MYSQL_PRIMARY_PORT
+          value: "3306"
+        - name: MYSQL_PRIMARY_USER
+          value: root
+        - name: MYSQL_PRIMARY_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: service-store-secret
+              key: MYSQL_PRIMARY_PASSWORD
+        - name: MYSQL_SECONDARY_IP
+          value: mysql-secondary.infra
+        - name: MYSQL_SECONDARY_PORT
+          value: "3306"
+        - name: MYSQL_SECONDARY_USER
+          value: root
+        - name: MYSQL_SECONDARY_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: service-store-secret
+              key: MYSQL_SECONDARY_PASSWORD
+        - name: KAFKA_CONSUMER_IP
+          value: kafka.infra
+        - name: KAFKA_CONSUMER_PORT
+          value: "9092"
+        - name: ZIPKIN_ENABLED
+          value: "true"
+        - name: ZIPKIN_BASE_URL
+          value: http://zipkin.istio-system:9411
+        volumeMounts:
+        - name: tz-seoul
+          mountPath: /etc/localtime
+      volumes:
+        - name: tz-seoul
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Seoul

@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: service-auth-gateway
+spec:
+  selector:
+    istio: stage-ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "192.168.0.36"
+  - port:
+      number: 9100
+      name: grpc
+      protocol: GRPC
+    hosts:
+    - "192.168.0.36"
